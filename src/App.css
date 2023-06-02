@@ -1,0 +1,16 @@
+.productCard{
+  width: 350px;
+  float: left;
+  margin: 5px;
+ 
+}
+
+.checkoutForm{
+  width: 700px;
+  margin-left: 120px;
+}
+
+.checkoutImage{
+  width: 50px;
+  height: 50px;
+}
