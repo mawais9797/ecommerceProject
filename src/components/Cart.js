@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { Link, useParams, useLocation, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faTrash } from "@fortawesome/free-solid-svg-icons";
 import {
   Row,
   Col,
@@ -11,7 +13,7 @@ import {
   Card,
 } from "react-bootstrap";
 import Message from "./Message";
-import { addToCart, removeFromCart } from "../actions/ProductAction";
+import { cartItemUpdate, removeFromCart } from "../actions/ProductAction";
 import Header from "./Header";
 // import "../myStyle.css";
 
@@ -24,21 +26,37 @@ const Cart = () => {
   const qty = location.search ? Number(location.search.split("=")[1]) : 1;
 
   const dispatch = useDispatch();
-
+  const cartFromLocalStorage = JSON.parse(localStorage.getItem("cartItems"));
   const cart = useSelector((state) => state.products);
+
   // const cart = JSON.parse(localStorage.getItem("cartItems"));
   console.log("CART =", cart);
   const { cartItems } = cart;
   console.log("cartItems = ", cartItems);
+  debugger;
   useEffect(() => {
     if (productId) {
       // debugger;
-      dispatch(addToCart(productId, qty));
+      dispatch(cartItemUpdate(productId, qty));
     }
   }, [dispatch, productId, qty]);
-
+  debugger;
   const removeFromCartHandler = (id) => {
-    dispatch(removeFromCart(id));
+    const updatedCartItems = cartFromLocalStorage.filter(
+      (item) => item.id !== id
+    );
+    debugger;
+    dispatch(removeFromCart(updatedCartItems));
+  };
+
+  const cartItemValueUpdateHandle = (id, qty) => {
+    const updateProductValue = cartFromLocalStorage.filter((p) => p.id == id);
+    updateProductValue[0].qty = Number(qty);
+    let updatedCartItems = cartFromLocalStorage.filter((p) =>
+      p.id == id ? updateProductValue : p
+    );
+    dispatch(cartItemUpdate(updatedCartItems));
+    // debugger;
   };
 
   // const userLogin = useSelector((state) => state.userLogin);
@@ -62,20 +80,20 @@ const Cart = () => {
         <Row>
           <Col md={8}>
             <h1>Shopping Cart</h1>
-            {cartItems.length === 0 ? (
+            {cartFromLocalStorage.length === 0 ? (
               <Message>
                 Your cart is empty <Link to="/"> Go Back</Link>
               </Message>
             ) : (
               <ListGroup variant="flush">
-                {Object.values(cartItems).map((item) => (
+                {cartFromLocalStorage.map((item) => (
                   <ListGroup.Item key={item.product}>
                     <Row>
                       <Col md={2}>
                         <Image src={item.image} alt={item.name} fluid rounded />
                       </Col>
                       <Col md={3}>
-                        <Link to={`/details/${item.product}`}>{item.name}</Link>
+                        <Link to={`/details/${item.id}`}>{item.name}</Link>
                       </Col>
                       <Col md={2}>${item.price}</Col>
                       <Col md={2}>
@@ -83,7 +101,8 @@ const Cart = () => {
                           as="select"
                           value={item.qty}
                           onChange={(e) =>
-                            dispatch(addToCart(item.product, e.target.value))
+                            // dispatch(cartItemUpdate(item.id, e.target.value))
+                            cartItemValueUpdateHandle(item.id, e.target.value)
                           }
                         >
                           {[...Array(item.countInStock).keys()].map((x) => (
@@ -97,9 +116,13 @@ const Cart = () => {
                         <Button
                           type="button"
                           variant="light"
-                          onClick={() => removeFromCartHandler(item.product)}
+                          onClick={() => removeFromCartHandler(item.id)}
                         >
-                          <i className="fas fa-trash"></i>
+                          {/* <i className="fas fa-trash"></i> */}
+                          <FontAwesomeIcon
+                            icon={faTrash}
+                            style={{ color: "#00040a" }}
+                          />
                         </Button>
                       </Col>
                     </Row>

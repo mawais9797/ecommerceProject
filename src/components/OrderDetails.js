@@ -3,7 +3,9 @@ import { useSelector } from "react-redux";
 import Header from "./Header";
 
 const OrderDetails = () => {
-  const customerOrders = useSelector((state) => state.products.customerOrder);
+  // const customerOrders = useSelector((state) => state.products.customerOrder);
+  const customerOrders = JSON.parse(localStorage.getItem("customerOrder"));
+  debugger;
   console.log("customer ORDERS =", customerOrders);
   //   const [name, city, email, orders] = customerOrders[0];
   //   console.log("customerName =", name);

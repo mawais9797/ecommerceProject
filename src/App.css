@@ -14,3 +14,13 @@
   width: 50px;
   height: 50px;
 }
+
+.myCart{
+  color:white;
+  text-decoration: none;
+}
+
+
+.myCart:hover{
+  color: rgb(139, 134, 134)
+}

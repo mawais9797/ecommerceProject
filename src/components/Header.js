@@ -1,6 +1,21 @@
 import React from "react";
 import { Link } from "react-router-dom";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faCartShopping, fa6 } from "@fortawesome/free-solid-svg-icons";
+import { useSelector } from "react-redux";
 const Header = () => {
+  const cartItems = useSelector((state) => state.products.cartItems);
+  // debugger;
+
+  var cartLength = 0;
+  // // // console.log(cart);
+  // // const number = cartItems.reduce((acc, item) => acc + item.qty, 0);
+  var tp = 0;
+  cartItems.map((x) => {
+    tp = Number(tp) + Number(x.qty);
+  });
+  cartLength = tp;
+  // debugger;
   return (
     <div>
       <nav className="navbar navbar-expand-lg navbar-dark bg-primary">
@@ -45,17 +60,18 @@ const Header = () => {
                   About
                 </a>
               </li>
+              {/* <li className="nav-item">
+                <Link className="nav-link " to="/cart">
+                  <BiCart />
+                  Cart
+                </Link>
+              </li> */}
             </ul>
-            <form className="d-flex">
-              <input
-                className="form-control me-sm-2"
-                type="search"
-                placeholder="Search"
-              />
-              <button className="btn btn-secondary my-2 my-sm-0" type="submit">
-                Search
-              </button>
-            </form>
+            <div>
+              <Link to="/cart" className="myCart">
+                <FontAwesomeIcon icon={faCartShopping} /> Cart ({cartLength})
+              </Link>
+            </div>
           </div>
         </div>
       </nav>

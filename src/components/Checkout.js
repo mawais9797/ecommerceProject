@@ -18,7 +18,7 @@ const Checkout = () => {
     // Handle form submission logic here
     console.log("form values =", values);
     dispatch(orderDetails(customerOrder));
-    // dispatch(emptyCart());
+    dispatch(emptyCart());
     navigate("/orderdetails");
   };
   //   store.dispatch((dispatch) => {

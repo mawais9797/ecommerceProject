@@ -29,9 +29,28 @@ const ProductDetails = () => {
   //   console.log("FilteredPRoduct =", product[0]);
   //   console.log("FilteredPRoduct OBJECT =", myProductObject);
 
-  const addToCartHandler = () => {
+  const addToCartHandler = (id, qty) => {
     myProductObject.qty = qty;
     // alert(qty);
+    // let listOfProducts = JSON.parse(localStorage.getItem("listOfProducts"));
+    // let cartItems = JSON.parse(localStorage.getItem("cartItems"));
+    // let addNewProduct = null;
+    // debugger;
+    // let currentCartValues = cartItems.filter((item) =>
+    //   item.id == id
+    //     ? (item.qty = Number(qty))
+    //     : (addNewProduct = listOfProducts.filter((p) =>
+    //         p.id == id ? (addNewProduct.qty = qty) : (addNewProduct.qty = qty)
+    //       ))
+    // );
+    // debugger;
+
+    dispatch(addToCart(myProductObject));
+    debugger;
+    // if (currentCartValues != null || currentCartValues != undefined) {
+    //   dispatch(addToCart(currentCartValues));
+    // } else {
+    // }
     dispatch(addToCart(myProductObject));
     navigate("/cart");
   };
@@ -112,7 +131,7 @@ const ProductDetails = () => {
                   className="btn-block cartBtn btn-primary rounded"
                   type="button"
                   disabled={product[0].countInStock === 0}
-                  onClick={addToCartHandler}
+                  onClick={() => addToCartHandler(product[0].id)}
                 >
                   Add To Cart
                 </Button>

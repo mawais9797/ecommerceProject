@@ -1,4 +1,4 @@
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 // import products from "../products/products";
 
 export const listOfProduct = (products) => async (dispatch) => {
@@ -15,7 +15,7 @@ export const listOfProduct = (products) => async (dispatch) => {
   }
 };
 
-export const addToCart = (product) => async (dispatch) => {
+export const addToCart = (product) => async (dispatch, getState) => {
   console.log("action prodeuct =", product);
   debugger;
 
@@ -32,15 +32,42 @@ export const addToCart = (product) => async (dispatch) => {
       },
     });
     // debugger;
-    const currentCartItems = JSON.parse(localStorage.getItem("cartItems"));
-    debugger;
-    const updatedCartItems = currentCartItems.push(product);
-    debugger;
-    localStorage.setItem("cartItems", JSON.stringify(updatedCartItems));
+    // const currentCartItems = JSON.parse(localStorage.getItem("cartItems"));
+    // debugger;
+    // const updatedCartItems = currentCartItems.push(product);
+    // debugger;
+    let getDataFromLocalStorage =
+      JSON.parse(localStorage.getItem("cartItems")) || [];
+    getDataFromLocalStorage.push(product);
+    localStorage.setItem("cartItems", JSON.stringify(getDataFromLocalStorage));
   } catch (error) {
     console.log(error);
   }
 };
+
+export const cartItemUpdate =
+  (updatedCartProducts) => async (dispatch, getState) => {
+    console.log("action prodeuct =", updatedCartProducts);
+    debugger;
+
+    try {
+      dispatch({
+        type: "UPDATE_TO_CART",
+        payload: updatedCartProducts,
+      });
+      // debugger;
+      // const currentCartItems = JSON.parse(localStorage.getItem("cartItems"));
+      // debugger;
+      // const updatedCartItems = currentCartItems.push(product);
+      // debugger;
+      // let getDataFromLocalStorage =
+      //   JSON.parse(localStorage.getItem("cartItems")) || [];
+      // // getDataFromLocalStorage.push(product);
+      localStorage.setItem("cartItems", JSON.stringify(updatedCartProducts));
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
 export const orderDetails = (order) => async (dispatch) => {
   console.log("OrderAction =", order);
@@ -51,7 +78,21 @@ export const orderDetails = (order) => async (dispatch) => {
       payload: order,
     });
     debugger;
-    localStorage.setItem("customerOrder", JSON.stringify(order));
+    // var getDataFromLocalStorage = [];
+    // getDataFromLocalStorage = JSON.parse(localStorage.getItem("customerOrder"));
+    // getDataFromLocalStorage = getDataFromLocalStorage.push(order);
+    // localStorage.setItem(
+    //   "customerOrder",
+    //   JSON.stringify(getDataFromLocalStorage)
+    // );
+
+    let getDataFromLocalStorage =
+      JSON.parse(localStorage.getItem("customerOrder")) || [];
+    getDataFromLocalStorage.push(order);
+    localStorage.setItem(
+      "customerOrder",
+      JSON.stringify(getDataFromLocalStorage)
+    );
   } catch (error) {
     console.log("Error is =", error);
   }
@@ -64,20 +105,23 @@ export const emptyCart = () => async (dispatch) => {
       type: "EMPTY_MY_CART",
       payload: emptyArry,
     });
+    localStorage.setItem("cartItems", JSON.stringify(emptyArry));
   } catch (error) {
     console.log("Error here =", error);
   }
 };
 
-export const removeFromCart = (products) => async (dispatch) => {
-  // debugger;
+export const removeFromCart = (updatedCartItems) => async (dispatch) => {
+  debugger;
+  // let cartItems = useSelector((state) => state.products.cartItems);
+  // let updatedCart = cartItems.filter((item) => item.id != id);
   try {
-    // dispatch({
-    //   type: "PRODUCT_LIST",
-    //   payload: products,
-    // });
-    // // debugger;
-    // localStorage.setItem("listOfProducts", JSON.stringify(products));
+    dispatch({
+      type: "REMOVE_ITEM_FROM_CART",
+      payload: updatedCartItems,
+    });
+    // debugger;
+    localStorage.setItem("cartItems", JSON.stringify(updatedCartItems));
   } catch (error) {
     // console.log(error);
   }
