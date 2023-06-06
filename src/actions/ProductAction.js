@@ -36,10 +36,15 @@ export const addToCart = (product) => async (dispatch, getState) => {
     // debugger;
     // const updatedCartItems = currentCartItems.push(product);
     // debugger;
-    let getDataFromLocalStorage =
-      JSON.parse(localStorage.getItem("cartItems")) || [];
-    getDataFromLocalStorage.push(product);
-    localStorage.setItem("cartItems", JSON.stringify(getDataFromLocalStorage));
+
+    localStorage.setItem(
+      "cartItems",
+      JSON.stringify(getState().products.cartItems)
+    );
+    // let getDataFromLocalStorage =
+    //   JSON.parse(localStorage.getItem("cartItems")) || [];
+    // getDataFromLocalStorage.push(product);
+    // localStorage.setItem("cartItems", JSON.stringify(getDataFromLocalStorage));
   } catch (error) {
     console.log(error);
   }

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCartShopping, fa6 } from "@fortawesome/free-solid-svg-icons";
@@ -6,7 +6,15 @@ import { useSelector } from "react-redux";
 const Header = () => {
   const cartItems = useSelector((state) => state.products.cartItems);
   // debugger;
+  const [showPopup, setShowPopup] = useState(true);
 
+  const handleMouseEnter = () => {
+    setShowPopup(true);
+  };
+
+  const handleMouseLeave = () => {
+    setShowPopup(false);
+  };
   var cartLength = 0;
   // // // console.log(cart);
   // // const number = cartItems.reduce((acc, item) => acc + item.qty, 0);
@@ -70,6 +78,24 @@ const Header = () => {
             <div>
               <Link to="/cart" className="myCart">
                 <FontAwesomeIcon icon={faCartShopping} /> Cart ({cartLength})
+                {showPopup && (
+                  <div className="popup">
+                    {cartItems.map((item) => {
+                      return (
+                        <ul>
+                          <Link to={`/details/${item.id}`} className="liCart">
+                            <li>
+                              {" "}
+                              {item.qty}{" "}
+                              <img src={item.image} className="checkoutImage" />
+                              {item.name}{" "}
+                            </li>
+                          </Link>
+                        </ul>
+                      );
+                    })}
+                  </div>
+                )}
               </Link>
             </div>
           </div>

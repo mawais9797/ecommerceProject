@@ -18,9 +18,54 @@
 .myCart{
   color:white;
   text-decoration: none;
+  position: relative;
 }
-
 
 .myCart:hover{
   color: rgb(139, 134, 134)
 }
+
+.liCart{
+  list-style-type: none;
+  text-decoration: none;
+}
+
+.popup {
+  position: fixed;
+  top: 40%;
+  left: 54%;
+  transform: translate(-10%, -95%);
+  z-index: 999;
+  display: none;
+  background-color: #dddada;
+  padding: 10px;
+  border: 1px solid #504f4f;
+  border-radius: 15px;
+  opacity: 0.8;
+  transition: opacity 3s ease;
+  
+}
+
+.myCart:hover .popup {
+  display: block;
+  opacity: 1;
+  
+}
+
+
+
+/* .popup {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 9;
+  display: none;
+  background-color: #c2bebe;
+  padding: 10px;
+  border: 1px solid #ccc;
+}
+
+.myCart:hover .popup {
+  display: block;
+} */

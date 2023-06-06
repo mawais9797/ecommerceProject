@@ -17,10 +17,21 @@ const productReducer = (state = initialState, action) => {
 
     case "ADD_TO_CART":
       debugger;
-      return {
-        ...state,
-        cartItems: [...state.cartItems, action.payload],
-      };
+      const item = action.payload;
+      const existItem = state.cartItems.find((x) => x.id === item.id);
+      if (existItem) {
+        return {
+          ...state,
+          cartItems: state.cartItems.map((p) =>
+            p.id === existItem.id ? item : p
+          ),
+        };
+      } else {
+        return {
+          ...state,
+          cartItems: [...state.cartItems, item],
+        };
+      }
 
     case "UPDATE_TO_CART":
       debugger;

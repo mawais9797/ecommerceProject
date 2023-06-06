@@ -29,28 +29,11 @@ const ProductDetails = () => {
   //   console.log("FilteredPRoduct =", product[0]);
   //   console.log("FilteredPRoduct OBJECT =", myProductObject);
 
-  const addToCartHandler = (id, qty) => {
-    myProductObject.qty = qty;
+  const addToCartHandler = (id) => {
     // alert(qty);
-    // let listOfProducts = JSON.parse(localStorage.getItem("listOfProducts"));
-    // let cartItems = JSON.parse(localStorage.getItem("cartItems"));
-    // let addNewProduct = null;
-    // debugger;
-    // let currentCartValues = cartItems.filter((item) =>
-    //   item.id == id
-    //     ? (item.qty = Number(qty))
-    //     : (addNewProduct = listOfProducts.filter((p) =>
-    //         p.id == id ? (addNewProduct.qty = qty) : (addNewProduct.qty = qty)
-    //       ))
-    // );
-    // debugger;
-
-    dispatch(addToCart(myProductObject));
+    myProductObject.qty = qty;
     debugger;
-    // if (currentCartValues != null || currentCartValues != undefined) {
-    //   dispatch(addToCart(currentCartValues));
-    // } else {
-    // }
+
     dispatch(addToCart(myProductObject));
     navigate("/cart");
   };
